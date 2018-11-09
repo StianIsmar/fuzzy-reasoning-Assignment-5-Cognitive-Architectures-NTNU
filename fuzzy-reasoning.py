@@ -99,8 +99,7 @@ class FuzzyReasoning:
 
 
 # call all functions from here.
-    def call_all(self):
-        return self.distance_delta_sets(self.distance, self.delta)
+
 
 
     def rule1(self, small_value, growing_value):
@@ -115,15 +114,51 @@ class FuzzyReasoning:
         minimize_value = min(perfect_value, growing_value)
         return "speedup", minimize_value
 
+    def rule4(self, verybig_value, val):
+        minimize_value = min (verybig_value, val)
+        if val == 1:
+            return "floorit", minimize_value
+        else:
+            return "floorit", 0
+    def rule5(self, verysmall_value ):
+        return "brakehard", verysmall_value
+
     def fire_which_rule(self, distance_set, delta_set):
-        found = "false"
-        for set_name in distance_set:
-            
+        rule_results = {}
+        for distance_set_name, y in distance_set.items():
+            if distance_set_name == "small":
+                for delta_set_name, z in delta_set.items():
+                    if delta_set_name == "growing":
+                        rule_results["rule1"] = self.rule1(y, z)
+                    if delta_set_name == "stable":
+                        rule_results["rule2"] = self.rule2(y, z)
+            if distance_set_name == "perfect":
+                for delta_set_name2, x in delta_set.items():
+                    if delta_set_name2 == "growing":
+                        rule_results["rule3"] = self.rule3(y, x)
+            if distance_set_name == "verybig":
+                for delta_set_name3, v in delta_set.items():
+                    if delta_set_name3 == "growing":
+                        for delta_set_name4, b in delta_set.items():
+                            if delta_set_name4 == "growingfast":
+                                rule_results["rule4"] = self.rule4(y, 0)
+                    else:
+                        rule_results["rule4"] = self.rule4(y, 1)
+            if distance_set_name == "verysmall":
+                rule_results["rule5"] = self.rule5(y)
+                    # if delta_set_name3 ==
+
+        return rule_results
 
 
+    def call_all(self):
+        dist_set, del_set = self.distance_delta_sets(self.distance, self.delta)
+        print(dist_set)
+        print(del_set)
 
+        return self.fire_which_rule(dist_set,del_set)
 
 # ******** Main: *************
 task1 = FuzzyReasoning(3.7, 1.2)
-(distance_set, delta_set) = task1.call_all()
-print("distance_set", distance_set, "delta_set:", delta_set)
+list_with_values = task1.call_all()
+print(list_with_values)
