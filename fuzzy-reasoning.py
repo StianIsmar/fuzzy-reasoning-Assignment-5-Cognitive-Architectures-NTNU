@@ -204,7 +204,7 @@ class FuzzyReasoning:
                     aggrigate_dict["speedup"].append(self.triangle(i, set_interval[0], x1, set_interval[1], calc_clip))
                     i += 1
         return aggrigate_dict
-
+    # Summing the areas and calculate the final centroid: 
     def summerise_area(self, dict):
         aggregate_list = [0] * 20
         for set_name, y_vals_list in dict.items():
