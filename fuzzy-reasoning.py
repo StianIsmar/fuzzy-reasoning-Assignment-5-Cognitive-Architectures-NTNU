@@ -1,5 +1,5 @@
-class FuzzyReasoning():
-    
+class FuzzyReasoning:
+
     def __init__(self,distance, delta):
         self.distance = distance
         self.delta = delta
@@ -103,10 +103,27 @@ class FuzzyReasoning():
         return self.distance_delta_sets(self.distance, self.delta)
 
 
-## MAIN ##:
-# The object
+    def rule1(self, small_value, growing_value):
+        minimize_value = min(small_value, growing_value)
+        return "none", minimize_value
+
+    def rule2(self, small_value, stable_value):
+        minimize_value = min(small_value, stable_value)
+        return "slowdown", minimize_value
+
+    def rule3(self, perfect_value, growing_value):
+        minimize_value = min(perfect_value, growing_value)
+        return "speedup", minimize_value
+
+    def fire_which_rule(self, distance_set, delta_set):
+        found = "false"
+        for set_name in distance_set:
+            
+
+
+
+
+# ******** Main: *************
 task1 = FuzzyReasoning(3.7, 1.2)
-# task1.call_all()
-# Check and print which sets it overlaps in the distance_set:
 (distance_set, delta_set) = task1.call_all()
 print("distance_set", distance_set, "delta_set:", delta_set)
