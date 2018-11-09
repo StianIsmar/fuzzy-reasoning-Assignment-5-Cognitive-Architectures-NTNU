@@ -213,9 +213,12 @@ class FuzzyReasoning:
                 aggregate_list[i] = max(val, aggregate_list[i])
                 i = i + 1
         denomerator = sum(aggregate_list)
-        numerator =
-
-
+        numerator = 0
+        i = 0
+        for val in aggregate_list:
+            numerator += val * aggregate_list[i]
+            i += 1
+        return numerator/denomerator
     def call_all(self):
         dist_set, del_set = self.distance_delta_sets(self.distance, self.delta)
         list_with_values = self.fire_which_rule(dist_set, del_set)
@@ -223,19 +226,14 @@ class FuzzyReasoning:
         l = self.summerise_area(dict)
         return l
 
-
 # ******** Main: *************
 task1 = FuzzyReasoning(3.7, 1.2)
 result_list = task1.call_all()
 print(result_list)
-print(sum(result_list,0))
 
-numerator = 0
-i = 0
-    for val in result_list:
-            numerator += val * result_list[i]
-            i += 1
-        return numerator
+
+
+
 
     
 
